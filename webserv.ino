@@ -4,7 +4,7 @@ const char *base_path = "htdocs";
 const size_t base_path_len = strlen(base_path);
 const char *notfoundf = "notfound";
 const char *contenttype_path = "ctype/";
-const char *sends_cyclef = "send_cycles";
+const char *sends_cyclef = "sends_cycle";
 
 enviroment env;
 EthernetServer server(0);
@@ -64,20 +64,13 @@ void loop(){
   env.lobby.client = server.accept();
   if (env.lobby.client){
     Serial.print('s');
-    if (recieve_client(&env.lobby)) {
+    if (recieve_client(&env.lobby))
       handshake(&env.lobby);
-      Serial.print(env.lobby.method);
-    }
+    Serial.println(env.lobby.code);
   } else {
-    Serial.print('n');
+    Serial.print(active_clients());
   }
-  delay(1000);
-  /*for (unsigned int i = 0; i < sends_cycle; i ++){
-      if (send_buf(&file, &main_client) != BUFF_SIZE){
-        main_client.flush();
-        main_client.stop();
-        file.close();
-        break;
-      }
-  }*/
+  send_payload();
+  if (active_clients() == 0)
+    delay(1000);
 }

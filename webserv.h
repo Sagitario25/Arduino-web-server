@@ -20,7 +20,7 @@ enum http_methods {
   NOT,
   GET,
   POST,
-  HEAD
+  HEAD,
 };
 
 typedef struct server_client_information {
@@ -46,5 +46,7 @@ void null_terminate(void *buf, size_t len);
 unsigned int active_clients(void);
 int recieve_client(client *c);
 void handshake(client *c);
+void send_payload(void);
+void end_client(client *c);
 
 #endif

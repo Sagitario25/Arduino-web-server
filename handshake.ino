@@ -31,6 +31,9 @@ void handshake(client *c)
   unsigned int active = active_clients();
 
   send_header(c);
-  c->active = true;
-  env.clients[active] = *c;
+  if (c->method != HEAD) {
+    c->active = true;
+    memcpy(&env.clients[active], c, sizeof(client));
+  } else
+    end_client(c);
 }
