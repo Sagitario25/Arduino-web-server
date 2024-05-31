@@ -11,9 +11,24 @@
 # ifndef CLIENTS
 #  define CLIENTS 3
 # endif
+# ifndef FORMAT_SIZE
+#  define FORMAT_SIZE 5
+# endif
 
 # ifndef BASE_PATH
 #  define BASE_PATH "/htdocs"
+# endif
+
+# ifndef CYCLES_FILE
+#  define CYCLES_FILE "/cycles"
+# endif
+
+# ifndef CONTENT_TYPE_DIR
+#  define CONTENT_TYPE_DIR "/ctype/"
+# endif
+
+# ifndef DEFAULT_CONTENT_TYPE
+#  define DEFAULT_CONTENT_TYPE "text/plain"
 # endif
 
 enum http_methods {
@@ -28,6 +43,7 @@ typedef struct server_client_information {
   File32 file;
   unsigned char method;
   unsigned int code;
+  char format[FORMAT_SIZE];
   bool active;
 } client;
 
@@ -48,5 +64,6 @@ int recieve_client(client *c);
 void handshake(client *c);
 void send_payload(void);
 void end_client(client *c);
+void send_file(EthernetClient *client, File32 *file);
 
 #endif

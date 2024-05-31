@@ -12,3 +12,12 @@ void end_client(client *c)
   c->file.close();
   c->active = false;
 }
+
+void send_file(EthernetClient *client, File32 *file)
+{
+  size_t readed;
+
+  while ((readed = file->readBytes(env.buff, BUFF_SIZE)) == BUFF_SIZE)
+    client->write(env.buff, BUFF_SIZE);
+  client->write(env.buff, readed);
+}

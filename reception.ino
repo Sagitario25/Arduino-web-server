@@ -51,6 +51,19 @@ unsigned int active_clients(void)
   return (i);
 }
 
+static void prepare_file(client *c)
+{
+  char *format;
+
+  c->file = env.sd.open(env.buff);
+  format = strrchr(env.buff, '.');
+  if (format == NULL)
+    format = env.buff;
+  else
+    format ++;
+  strlcpy(c->format, format, FORMAT_SIZE);
+}
+
 int recieve_client(client *c)
 {
   if (active_clients() == CLIENTS) {
@@ -67,9 +80,8 @@ int recieve_client(client *c)
     return (0);
   if (!env.sd.exists(env.buff))
     c->code = 404;
-  else {
+  else
     c->code = 200;
-    c->file = env.sd.open(env.buff);
-  }
+  prepare_file(c);
   return (1);
 }

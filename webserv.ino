@@ -1,11 +1,5 @@
 #include "webserv.h"
 
-const char *base_path = "htdocs";
-const size_t base_path_len = strlen(base_path);
-const char *notfoundf = "notfound";
-const char *contenttype_path = "ctype/";
-const char *sends_cyclef = "sends_cycle";
-
 enviroment env;
 EthernetServer server(0);
 
@@ -51,7 +45,7 @@ void setup(){
   Serial.println (port);
 
   //Open static files
-  file = env.sd.open(sends_cyclef, FILE_READ);
+  file = env.sd.open(CYCLES_FILE, FILE_READ);
   env.send_cycles = file.parseInt();
   file.close();
   env.header = env.sd.open("header", FILE_READ);

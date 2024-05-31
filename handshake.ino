@@ -1,5 +1,23 @@
 #include "webserv.h"
 
+static void send_content_type(client *c)
+{
+  size_t len = strlen(CONTENT_TYPE_DIR) + FORMAT_SIZE;
+  char path[len] = "";
+  File32 file;
+
+  strcat(path, CONTENT_TYPE_DIR);
+  strcat(path, c->format);
+  Serial.println(path);
+  file = env.sd.open(path, FILE_READ);
+  if (!file) {
+    c->client.write(DEFAULT_CONTENT_TYPE);
+    return;
+  }
+  send_file(&c->client, &file);
+  file.close();
+}
+
 static void send_header_chunk(client *c)
 {
   size_t readed;
@@ -21,7 +39,8 @@ void send_header(client *c)
   send_header_chunk(c);//Content length
   c->client.print(size);
   send_header_chunk(c);//Content type
-  c->client.write("text/plain", 10);
+  send_content_type(c);
+  Serial.println(c->format);
   send_header_chunk(c);//Server
   c->client.write("\n", 1);
 }
