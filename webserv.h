@@ -1,6 +1,7 @@
 #ifndef WEBSERV_H_
 # define WEBSERV_H_
 
+# include "config.h"
 # include <SPI.h>
 # include <SdFat.h>
 # include <Ethernet.h>
@@ -14,19 +15,15 @@
 # ifndef FORMAT_SIZE
 #  define FORMAT_SIZE 5
 # endif
-
 # ifndef BASE_PATH
 #  define BASE_PATH "/htdocs"
 # endif
-
 # ifndef CYCLES_FILE
 #  define CYCLES_FILE "/cycles"
 # endif
-
 # ifndef CONTENT_TYPE_DIR
 #  define CONTENT_TYPE_DIR "/ctype/"
 # endif
-
 # ifndef DEFAULT_CONTENT_TYPE
 #  define DEFAULT_CONTENT_TYPE "text/plain"
 # endif
