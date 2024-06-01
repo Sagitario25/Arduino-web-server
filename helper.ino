@@ -7,6 +7,7 @@ void null_terminate(void *buf, size_t len)
 
 void end_client(client *c)
 {
+  report_exit(c);
   c->client.flush();
   c->client.stop();
   c->file.close();

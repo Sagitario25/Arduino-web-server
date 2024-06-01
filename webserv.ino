@@ -55,16 +55,18 @@ void setup(){
 }
 
 void loop(){
+  static bool was_idle = true;
+
   env.lobby.client = server.accept();
-  if (env.lobby.client){
-    Serial.print('s');
+  if (env.lobby.client)
     if (recieve_client(&env.lobby))
       handshake(&env.lobby);
-    Serial.println(env.lobby.code);
-  } else {
-    Serial.print(active_clients());
-  }
   send_payload();
-  if (active_clients() == 0)
+  if (active_clients() == 0) {
+    if (!was_idle)
+      Serial.println("Idle");
+    was_idle = true;
     delay(1000);
+  } else
+    was_idle = false;
 }

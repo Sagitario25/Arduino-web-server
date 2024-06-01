@@ -42,6 +42,8 @@ typedef struct server_client_information {
   unsigned int code;
   char format[FORMAT_SIZE];
   bool active;
+  bool used;
+  unsigned int id;
 } client;
 
 typedef struct server_information {
@@ -62,5 +64,9 @@ void handshake(client *c);
 void send_payload(void);
 void end_client(client *c);
 void send_file(EthernetClient *client, File32 *file);
+
+void report_entry(client *c);
+void report_serve(client *c);
+void report_exit(client *c);
 
 #endif

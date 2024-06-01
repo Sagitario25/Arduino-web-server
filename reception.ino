@@ -64,7 +64,7 @@ static void prepare_file(client *c)
   strlcpy(c->format, format, FORMAT_SIZE);
 }
 
-int recieve_client(client *c)
+static int get_status(client *c)
 {
   if (active_clients() == CLIENTS) {
     c->code = 429;
@@ -82,6 +82,19 @@ int recieve_client(client *c)
     c->code = 404;
   else
     c->code = 200;
-  prepare_file(c);
   return (1);
+}
+
+int recieve_client(client *c)
+{
+  static unsigned int id = 0;
+  int ret = get_status(c);
+
+  if (id == 0)
+    id ++;
+  c->id = id;
+  id ++;
+  report_entry(c);
+  prepare_file(c);
+  return (ret);
 }

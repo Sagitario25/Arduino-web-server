@@ -8,7 +8,6 @@ static void send_content_type(client *c)
 
   strcat(path, CONTENT_TYPE_DIR);
   strcat(path, c->format);
-  Serial.println(path);
   file = env.sd.open(path, FILE_READ);
   if (!file) {
     c->client.write(DEFAULT_CONTENT_TYPE);
@@ -40,7 +39,6 @@ void send_header(client *c)
   c->client.print(size);
   send_header_chunk(c);//Content type
   send_content_type(c);
-  Serial.println(c->format);
   send_header_chunk(c);//Server
   c->client.write("\n", 1);
 }
