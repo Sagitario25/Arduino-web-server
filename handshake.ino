@@ -4,17 +4,11 @@ static void send_content_type(client *c)
 {
   size_t len = strlen(CONTENT_TYPE_DIR) + FORMAT_SIZE;
   char path[len] = "";
-  File32 file;
 
   strcat(path, CONTENT_TYPE_DIR);
   strcat(path, c->format);
-  file = env.sd.open(path, FILE_READ);
-  if (!file) {
+  if (!send_file(&c->client, path))
     c->client.write(DEFAULT_CONTENT_TYPE);
-    return;
-  }
-  send_file(&c->client, &file);
-  file.close();
 }
 
 static void send_header_chunk(client *c)
@@ -47,8 +41,11 @@ void handshake(client *c)
 {
   unsigned int active = active_clients();
 
-  send_header(c);
-  if (c->method != HEAD) {
+  if (c->external_header)
+    send_header(c);
+  else
+    send_file(&c->client, env.buff);
+  if (c->method != HEAD && c->external_header) {
     c->active = true;
     memcpy(&env.clients[active], c, sizeof(client));
   } else

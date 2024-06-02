@@ -57,10 +57,14 @@ void setup(){
 void loop(){
   static bool was_idle = true;
 
-  env.lobby.client = server.accept();
-  if (env.lobby.client)
-    if (recieve_client(&env.lobby))
-      handshake(&env.lobby);
+  while (true) {
+    env.lobby.client = server.accept();
+    if (env.lobby.client) {
+      if (recieve_client(&env.lobby))
+        handshake(&env.lobby);
+    } else
+      break;
+  }
   send_payload();
   if (active_clients() == 0) {
     if (!was_idle)

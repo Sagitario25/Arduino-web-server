@@ -66,35 +66,46 @@ static void prepare_file(client *c)
 
 static int get_status(client *c)
 {
-  if (active_clients() == CLIENTS) {
+  if (active_clients() >= CLIENTS) {
     c->code = 429;
     return (1);
   }
   if (!set_method(c))
     return (0);
   if (c->method == NOT) {
-    c->code = 501;
+    c->code = 405;
     return (1);
   }
+  c->code = 200;
+  return (1);
+}
+
+static int set_path(client *c)
+{
   if (!get_path(c))
     return (0);
+    Serial.print(env.buff);
   if (!env.sd.exists(env.buff))
     c->code = 404;
-  else
-    c->code = 200;
+  if (c->code != 200)
+    itoa(c->code, env.buff + 1, 10);
+  c->external_header = c->code != 429;
   return (1);
 }
 
 int recieve_client(client *c)
 {
   static unsigned int id = 0;
-  int ret = get_status(c);
 
+  if (!get_status(c))
+    return (0);
+  if (!set_path(c))
+    return (0);
+  prepare_file(c);
   if (id == 0)
     id ++;
   c->id = id;
   id ++;
   report_entry(c);
-  prepare_file(c);
-  return (ret);
+  return (1);
 }

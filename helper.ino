@@ -14,11 +14,15 @@ void end_client(client *c)
   c->active = false;
 }
 
-void send_file(EthernetClient *client, File32 *file)
+int send_file(EthernetClient *client, char *path)
 {
+  File32 file = env.sd.open(path, FILE_READ);
   size_t readed;
 
-  while ((readed = file->readBytes(env.buff, BUFF_SIZE)) == BUFF_SIZE)
+  if (!file)
+    return (0);
+  while ((readed = file.readBytes(env.buff, BUFF_SIZE)) == BUFF_SIZE)
     client->write(env.buff, BUFF_SIZE);
   client->write(env.buff, readed);
+  return (1);
 }

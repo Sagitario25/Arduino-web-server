@@ -43,6 +43,7 @@ typedef struct server_client_information {
   char format[FORMAT_SIZE];
   bool active;
   bool used;
+  bool external_header;
   unsigned int id;
 } client;
 
