@@ -8,5 +8,6 @@
 //#  define CYCLES_FILE "/cycles"
 //#  define CONTENT_TYPE_DIR "/ctype/"
 //#  define DEFAULT_CONTENT_TYPE "text/plain"
+//#  define DEFAULT_FILE "index.htm"
 
 #endif

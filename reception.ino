@@ -38,7 +38,7 @@ static int get_path(client *c)
     len ++;
   }
   if (env.buff[len - 1] == '/')
-    strcat(env.buff, "index.htm");
+    strcat(env.buff, DEFAULT_FILE);
   return (1);
 }
 

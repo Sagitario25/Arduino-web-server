@@ -27,6 +27,9 @@
 # ifndef DEFAULT_CONTENT_TYPE
 #  define DEFAULT_CONTENT_TYPE "text/plain"
 # endif
+# ifndef DEFAULT_FILE
+#  define DEFAULT_FILE "index.htm"
+# endif
 
 enum http_methods {
   NOT,
