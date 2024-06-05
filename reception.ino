@@ -84,8 +84,9 @@ static int set_path(client *c)
 {
   if (!get_path(c))
     return (0);
-  if (!env.sd.exists(env.buff))
-    c->code = 404;
+  if (c->code != 429)
+    if (!env.sd.exists(env.buff))
+      c->code = 404;
   if (c->code != 200)
     itoa(c->code, env.buff + 1, 10);
   c->external_header = c->code != 429;
