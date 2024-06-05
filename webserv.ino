@@ -55,7 +55,7 @@ void setup(){
 }
 
 void loop(){
-  static bool was_idle = true;
+  static bool was_idle = false;
 
   while (true) {
     env.lobby.client = server.accept();

@@ -84,7 +84,6 @@ static int set_path(client *c)
 {
   if (!get_path(c))
     return (0);
-    Serial.print(env.buff);
   if (!env.sd.exists(env.buff))
     c->code = 404;
   if (c->code != 200)
@@ -107,5 +106,7 @@ int recieve_client(client *c)
   c->id = id;
   id ++;
   report_entry(c);
+  if (c->method == POST)
+    report_post(c);
   return (1);
 }

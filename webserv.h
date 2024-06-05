@@ -72,5 +72,6 @@ void send_file(EthernetClient *client, File32 *file);
 void report_entry(client *c);
 void report_serve(client *c);
 void report_exit(client *c);
+void report_post(client *c);
 
 #endif
