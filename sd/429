@@ -1,0 +1,21 @@
+HTTP/1.1 429 Too Many Requests
+Content-Type: text/html
+Retry-After: 10
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<h1>Sorry, you have made too many requests. Please try again in <a id=seconds><a/> seconds.</h1>
+		
+		<script>
+			var seconds = 5; // Set number of seconds here
+
+			document.getElementById ("seconds").innerHTML = seconds;
+			
+			setTimeout(function (){location.reload ()}, seconds * 1000);
+		</script>
+	</body>
+</html>
